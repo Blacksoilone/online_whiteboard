@@ -20,6 +20,7 @@ onMounted(() => {
 
   let isDrawing = false
   function startDrawing(e) { 
+    e.preventDefault()
     console.log("你竟然敢按下鼠标？！")
     isDrawing = true
     const rect = whiteboard.value.getBoundingClientRect()
@@ -30,6 +31,7 @@ onMounted(() => {
     pathPoints.push([lastX, lastY])
   }
   function draw(e) { 
+    e.preventDefault()
     if (!isDrawing||!ctx) return
     console.log("你竟然还敢移动鼠标？！")
     const rect = whiteboard.value.getBoundingClientRect()
@@ -47,6 +49,7 @@ onMounted(() => {
     lastY = y
   }
   function stopDrawing(e) { 
+    e.preventDefault()
     isDrawing = false
     console.log("你甚至还敢抬起鼠标？！")
 
@@ -56,6 +59,7 @@ onMounted(() => {
 
   }
   function stopDrawing_leave(e) { 
+    e.preventDefault()
     isDrawing = false
     console.log("你居然还敢离开画板？！")
   }
@@ -80,6 +84,10 @@ onMounted(() => {
       @mousemove="draw"
       @mouseup="stopDrawing"
       @mouseleave="stopDrawing_leave"
+      @touchstart="startDrawing"
+      @touchmove="draw"
+      @touchend="stopDrawing"
+      @touchcancel="stopDrawing_leave"
     ></canvas>
   </div>
 </template>
@@ -109,6 +117,7 @@ onMounted(() => {
   }
   canvas {
     border: 1px solid black;
+    touch-action: none; 
   }
 
 </style>
